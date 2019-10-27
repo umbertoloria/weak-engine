@@ -1,7 +1,9 @@
-function Entity(shader, mesh) {
+// function Entity(shader, mesh) {
+function Entity(pictures) {
 
-	this.shader = shader;
-	this.mesh = mesh;
+	// this.shader = shader;
+	// this.mesh = mesh;
+	this.pictures = pictures;
 	this.position = [0, 0, 0];
 	this.rotation = [0, 0, 0];
 

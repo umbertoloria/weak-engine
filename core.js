@@ -1,19 +1,12 @@
 const opengl = new OpenGL("#window");
-opengl.setClearColor(0, 0, 0, 1);
 
-const gl = opengl.getContext();
-window.onresize = opengl.updateWindowSize;
-const input = new Input();
+const input = new Input(opengl);
 document.addEventListener('keyup', input.keyUpHandle);
 document.addEventListener('keydown', input.keyDownHandle);
+window.onresize = input.windowResizeHandle;
 
-const projection = new Perspective(
-	45 * Math.PI / 180,
-	gl.canvas.clientWidth / gl.canvas.clientHeight,
-	0.1, 100
-);
+opengl.setClearColor(0, 0, 0, 1);
 
-const camera = new Camera();
 
 //  QUAD
 const vsSource = `
@@ -34,9 +27,7 @@ const fsSource = `
 		gl_FragColor = vColor;
 	}`;
 
-const shader = new Shader(
-	gl, vsSource, fsSource
-);
+const programInfo = opengl.createShader(vsSource, fsSource);
 
 const vertices = [
 	/* position */      /* colour */
@@ -45,14 +36,35 @@ const vertices = [
 	1.0, -1.0, 0,  /**/ 0, 1, 0, 1,
 	-1.0, -1.0, 0, /**/ 0, 0, 1, 1
 ];
-const mesh = new Mesh(opengl, shader, vertices);
 
-const entity = new Entity(shader, mesh);
+const mesh = opengl.createMesh(programInfo, vertices);
+
+const entity = new Entity(
+	[
+		{
+			shader: programInfo,
+			mesh: mesh
+		}
+	]
+);
 entity.setPosition(0, 0, -50);
 
 const ctrl2d = new Controls2D("w", "a", "s", "d", 10);
 
-function update(ts) {
+let projection;
+
+input.addResizeWindowHandle(function (width, height) {
+	projection = new Perspective(
+		45 * Math.PI / 180,
+		width / height,
+		0.1, 100
+	);
+});
+
+const camera = new Camera();
+
+input.init();
+opengl.setUpdate((ts) => {
 
 	const move = ctrl2d.getMoveVector(ts);
 
@@ -64,6 +76,5 @@ function update(ts) {
 
 	opengl.clear();
 	opengl.drawEn(projection, camera, entity);
-}
 
-opengl.setUpdate(update);
+});

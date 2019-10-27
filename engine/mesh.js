@@ -1,6 +1,4 @@
-function Mesh(opengl, programInfo, vertices) {
-
-	const gl = opengl.getContext();
+function Mesh(gl, programInfo, vertices) {
 
 	const buffer = gl.createBuffer();
 	const count = vertices.length / 7;

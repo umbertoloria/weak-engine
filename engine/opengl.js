@@ -6,25 +6,28 @@ function OpenGL(id) {
 		return;
 	}
 
-	this.updateWindowSize = function () {
-		gl.canvas.width = document.body.clientWidth;
-		gl.canvas.height = document.body.clientHeight;
-		gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+	this.updateWindowSize = function (width, height) {
+		gl.canvas.width = width;
+		gl.canvas.height = height;
+		gl.viewport(0, 0, width, height);
 	};
-	this.updateWindowSize();
 
-	this.getContext = function () {
-		return gl;
+	this.createShader = function (vsSource, fsSource) {
+		return new Shader(gl, vsSource, fsSource);
+	};
+
+	this.createMesh = function (shader, vertices) {
+		return new Mesh(gl, shader, vertices);
 	};
 
 	this.setClearColor = function (red, green, blue, alpha) {
-		gl.clearColor(red, green, blue, alpha);  // Clear to black, fully opaque
+		gl.clearColor(red, green, blue, alpha);
 	};
 
 	this.clear = function () {
-		gl.clearDepth(1.0);                 // Clear everything
-		gl.enable(gl.DEPTH_TEST);           // Enable depth testing
-		gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
+		gl.clearDepth(1.0);
+		gl.enable(gl.DEPTH_TEST);
+		gl.depthFunc(gl.LEQUAL); // Near things obscure far things
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	};
 
@@ -55,9 +58,15 @@ function OpenGL(id) {
 	};
 
 	this.drawEn = function (projection, camera, entity) {
+
 		const modelMatrix = mat4.create();
 		mat4.translate(modelMatrix, modelMatrix, entity.position);
-		this.draw(entity.shader, entity.mesh, projection, camera, modelMatrix);
+
+		for (let pictureKey in entity.pictures) {
+			const picture = entity.pictures[pictureKey];
+			this.draw(picture.shader, picture.mesh, projection, camera, modelMatrix);
+		}
+
 	};
 
 	this.setUpdate = function (loopFunction) {
