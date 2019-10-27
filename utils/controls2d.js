@@ -23,11 +23,12 @@ function Controls2D(up, left, down, right, speed) {
 			else
 				result[1]--;
 		}
-		// if length > 0 {
-		result[0] *= speed * ts;
-		result[1] *= speed * ts;
-		// TODO: normalize
-		// }
+		if (vec2.length(result) > 0) {
+			vec2.normalize(result, result);
+			result[0] *= speed * ts;
+			result[1] *= speed * ts;
+		}
+
 		return result
 	};
 

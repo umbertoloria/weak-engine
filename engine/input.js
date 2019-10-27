@@ -12,13 +12,10 @@ function Input(opengl) {
 	};
 
 	this.windowResizeHandle = function () {
-		const width = document.body.clientWidth;
-		const height = document.body.clientHeight;
-		// opengl.updateWindowSize(width, height); // TODO: Usare gli eventi, inglobare in opengl.js
 		const evento = {
 			type: "WindowResize",
-			width: width,
-			height: height
+			width: document.body.clientWidth,
+			height: document.body.clientHeight
 		};
 		opengl.newEvent(evento);
 	};

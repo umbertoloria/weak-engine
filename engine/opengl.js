@@ -55,6 +55,10 @@ function OpenGL(id) {
 
 		const modelMatrix = mat4.create();
 		mat4.translate(modelMatrix, modelMatrix, entity.position);
+		mat4.rotate(modelMatrix, modelMatrix, entity.rotation[1], [0, 1, 0]);
+		mat4.rotate(modelMatrix, modelMatrix, entity.rotation[0], [1, 0, 0]);
+		mat4.rotate(modelMatrix, modelMatrix, entity.rotation[2], [0, 0, 1]);
+		mat4.scale(modelMatrix, modelMatrix, entity.scale);
 
 		for (let picture of entity.pictures) {
 			this.draw(picture.shader, picture.mesh, projection, camera, modelMatrix);

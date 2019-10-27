@@ -35,13 +35,14 @@ function MyLayer() {
 		const programInfo = opengl.createShader(vsSource, fsSource);
 		const mesh = opengl.createMesh(programInfo, vertices);
 
-
-		this.entity = new Entity([
-			{
-				shader: programInfo,
-				mesh: mesh
-			}
-		]);
+		this.entity = new Entity(
+			[
+				{
+					shader: programInfo,
+					mesh: mesh
+				}
+			]
+		);
 		this.entity.setPosition(0, 0, -50);
 
 	};
@@ -53,6 +54,17 @@ function MyLayer() {
 			this.entity.position[0] + move[0],
 			this.entity.position[1] + move[1],
 			this.entity.position[2]
+		);
+
+		let rot = 0;
+		if (input.isKeyDown(" ")) {
+			rot = -ts;
+		}
+
+		this.entity.setRotation(
+			this.entity.rotation[0],
+			this.entity.rotation[1],
+			this.entity.rotation[2] + rot
 		);
 
 		opengl.clear();
