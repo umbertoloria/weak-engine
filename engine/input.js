@@ -2,14 +2,6 @@ function Input(opengl) {
 
 	const keys = {};
 
-	// TODO: Gestire diversi tipi di handles
-	const resizeWindowHandles = [];
-
-	// Handlers management
-	this.addResizeWindowHandle = function (handle) {
-		resizeWindowHandles.push(handle);
-	};
-
 	// System function events
 	this.keyUpHandle = function (e) {
 		keys[e.key] = false;
@@ -22,10 +14,13 @@ function Input(opengl) {
 	this.windowResizeHandle = function () {
 		const width = document.body.clientWidth;
 		const height = document.body.clientHeight;
-		opengl.updateWindowSize(width, height);
-		for (let resizeWindowHandle of resizeWindowHandles) {
-			resizeWindowHandle(width, height);
-		}
+		// opengl.updateWindowSize(width, height); // TODO: Usare gli eventi, inglobare in opengl.js
+		const evento = {
+			type: "WindowResize",
+			width: width,
+			height: height
+		};
+		opengl.newEvent(evento);
 	};
 
 	// Init

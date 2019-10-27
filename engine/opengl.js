@@ -6,12 +6,6 @@ function OpenGL(id) {
 		return;
 	}
 
-	this.updateWindowSize = function (width, height) {
-		gl.canvas.width = width;
-		gl.canvas.height = height;
-		gl.viewport(0, 0, width, height);
-	};
-
 	this.createShader = function (vsSource, fsSource) {
 		return new Shader(gl, vsSource, fsSource);
 	};
@@ -62,25 +56,51 @@ function OpenGL(id) {
 		const modelMatrix = mat4.create();
 		mat4.translate(modelMatrix, modelMatrix, entity.position);
 
-		for (let pictureKey in entity.pictures) {
-			const picture = entity.pictures[pictureKey];
+		for (let picture of entity.pictures) {
 			this.draw(picture.shader, picture.mesh, projection, camera, modelMatrix);
 		}
 
 	};
 
-	this.setUpdate = function (loopFunction) {
+	// Layer Stack
+	this.layerStack = new Layer_stack();
+
+	this.addLayer = function (layer) {
+		this.layerStack.add(layer);
+	};
+
+	// Rendering
+	this.attachLayers = function () {
+		this.layerStack.attach()
+	};
+
+	this.runLayers = function () {
+
+		const interfaceLayers = this.layerStack;
 		let then = 0;
 
 		function loop(now) {
 			now *= 0.001;
 			const ts = now - then;
 			then = now;
-			loopFunction(ts);
+			interfaceLayers.update(ts);
 			requestAnimationFrame(loop);
 		}
 
 		requestAnimationFrame(loop);
+
+	};
+	this.detachLayers = function () {
+		this.layerStack.detach();
+	};
+
+	this.newEvent = function (e) {
+		if (e.type === "WindowResize") {
+			gl.canvas.width = e.width;
+			gl.canvas.height = e.height;
+			gl.viewport(0, 0, e.width, e.height);
+		}
+		this.layerStack.event(e);
 	};
 
 }
