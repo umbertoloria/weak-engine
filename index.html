@@ -15,22 +15,27 @@
 			display: block;
 		}
 	</style>
+	<!-- Library Dependencies -->
 	<script src="vendor/gl-matrix.js"></script>
 	<script src="vendor/jQuery.min.js"></script>
-	<script src="engine/input.js"></script>
-	<script src="engine/shader.js"></script>
-	<script src="engine/mesh.js"></script>
-	<script src="engine/opengl.js"></script>
-	<script src="engine/layer_stack.js"></script>
-	<script src="graphics/perspective.js"></script>
-	<script src="graphics/camera.js"></script>
-	<script src="graphics/entity.js"></script>
-	<script src="utils/controls2d.js"></script>
-	<script src="tests/firstLayer.js"></script>
+	<!-- WebGL Dependencies -->
+	<script src="engine/webgl/GLShader.js"></script>
+	<script src="engine/webgl/GLMesh.js"></script>
+	<script src="engine/webgl/GLContextManager.js"></script>
+	<!-- Engine Dependencies -->
+	<script src="engine/Input.js"></script>
+	<script src="engine/LayerStack.js"></script>
+	<script src="engine/Renderer.js"></script>
+	<!-- Graphics Utilities -->
+	<script src="game/graphics/perspective.js"></script>
+	<script src="game/graphics/camera.js"></script>
+	<script src="game/graphics/entity.js"></script>
+	<script src="game/utils/controls2d.js"></script>
 </head>
 <body>
 <canvas id="window"></canvas>
-<script src="core.js">
+<script src="game/tests/giocoBello.js"></script>
+<script src="engine/TurnOnTheEngine.js">
 </script>
 </body>
 </html>

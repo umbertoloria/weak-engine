@@ -1,16 +1,11 @@
 function Controls2D(up, left, down, right, speed) {
 
-	this.up = up;
-	this.left = left;
-	this.down = down;
-	this.right = right;
-
 	this.getMoveVector = function (ts) {
 		const left_f = input.isKeyDown(left);
 		const right_f = input.isKeyDown(right);
 		const up_f = input.isKeyDown(up);
 		const down_f = input.isKeyDown(down);
-		result = [0, 0];
+		let result = [0, 0];
 		if (left_f ^ right_f) {
 			if (left_f)
 				result[0]--;
@@ -28,8 +23,7 @@ function Controls2D(up, left, down, right, speed) {
 			result[0] *= speed * ts;
 			result[1] *= speed * ts;
 		}
-
-		return result
+		return result;
 	};
 
 }

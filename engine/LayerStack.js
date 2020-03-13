@@ -1,22 +1,27 @@
-function Layer_stack() {
+function LayerStack() {
 
 	const layers = [];
 
-	this.add = function (layer) {
+	this.addLayer = function (layer) {
 		layers.push(layer);
 	};
 
-	this.attach = function () {
+	this.attachLayers = function (context) {
 		for (let layer of layers)
-			layer.attach();
+			layer.attach(context);
 	};
 
-	this.update = function (ts) {
+	this.updateLayers = function (ts) {
 		for (let layer of layers)
 			layer.update(ts);
 	};
 
-	this.detach = function () {
+	this.drawLayers = function (renderer) {
+		for (let layer of layers)
+			layer.draw(renderer);
+	}
+
+	this.detachLayers = function () {
 		for (let layer of layers)
 			layer.detach();
 	};

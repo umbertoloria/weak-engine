@@ -1,4 +1,4 @@
-function Input(opengl) {
+function Input(eventUserCallback) {
 
 	const keys = {};
 
@@ -17,7 +17,7 @@ function Input(opengl) {
 			width: document.body.clientWidth,
 			height: document.body.clientHeight
 		};
-		opengl.newEvent(evento);
+		eventUserCallback(evento);
 	};
 
 	// Init

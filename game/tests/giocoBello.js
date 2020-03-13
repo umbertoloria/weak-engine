@@ -1,3 +1,11 @@
+function layersDefinition(layerStack) {
+	layerStack.addLayer(new MyLayer());
+}
+
+function clearColorDefinition() {
+	return [0, 0, 0, 1];
+}
+
 function MyLayer() {
 
 	const vsSource = `
@@ -30,10 +38,10 @@ function MyLayer() {
 	this.camera = new Camera();
 	this.ctrl2d = new Controls2D("w", "a", "s", "d", 10);
 
-	this.attach = function () {
+	this.attach = function (context) {
 
-		const programInfo = opengl.createShader(vsSource, fsSource);
-		const mesh = opengl.createMesh(programInfo, vertices);
+		const programInfo = context.createShader(vsSource, fsSource);
+		const mesh = context.createMesh(programInfo, vertices);
 
 		this.entity = new Entity(
 			[
@@ -67,9 +75,11 @@ function MyLayer() {
 			this.entity.rotation[2] + rot
 		);
 
-		opengl.clear();
-		opengl.drawEn(this.projection, this.camera, this.entity);
 	};
+
+	this.draw = function (renderer) {
+		renderer.drawEn(this.projection, this.camera, this.entity);
+	}
 
 	this.event = function (e) {
 		if (e.type === "WindowResize") {
@@ -80,8 +90,5 @@ function MyLayer() {
 			);
 		}
 	};
-
-	this.detach = function () {
-	}
 
 }

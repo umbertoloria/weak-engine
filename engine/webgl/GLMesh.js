@@ -1,4 +1,4 @@
-function Mesh(gl, programInfo, vertices) {
+function GLMesh(gl, programInfo, vertices) {
 
 	const buffer = gl.createBuffer();
 	const count = vertices.length / 7;

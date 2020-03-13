@@ -1,4 +1,4 @@
-function Shader(gl, vertexShaderSource, fragmentShaderSource) {
+function GLShader(gl, vertexShaderSource, fragmentShaderSource) {
 
 	function initShaderProgram(gl, vsSource, fsSource) {
 		const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vsSource);
