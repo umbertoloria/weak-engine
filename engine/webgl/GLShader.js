@@ -39,8 +39,16 @@ function GLShader(gl, vertexShaderSource, fragmentShaderSource) {
 		gl.useProgram(this.program);
 	}
 
-	this.setUniformMatrix4fv = function (channel, matrix) {
+	this.setUniformMat4fv = function (channel, matrix) {
 		gl.uniformMatrix4fv(channel, false, matrix);
+	}
+
+	this.setUniformVec3f = function (channel, vector) {
+		gl.uniform3f(channel, vector[0], vector[1], vector[2]);
+	}
+
+	this.setUniformVec4f = function (channel, vector) {
+		gl.uniform4f(channel, vector[0], vector[1], vector[2], vector[3]);
 	}
 
 }

@@ -7,9 +7,9 @@ function QuadShader(context) {
 	const modelMatrixUniform = shader.retrieveUniformLocation("uModelMatrix")
 	this.use = function (projM, viewM, modelM) {
 		shader.use();
-		shader.setUniformMatrix4fv(projectionMatrixUniform, projM);
-		shader.setUniformMatrix4fv(viewMatrixUniform, viewM);
-		shader.setUniformMatrix4fv(modelMatrixUniform, modelM);
+		shader.setUniformMat4fv(projectionMatrixUniform, projM);
+		shader.setUniformMat4fv(viewMatrixUniform, viewM);
+		shader.setUniformMat4fv(modelMatrixUniform, modelM);
 	}
 }
 
