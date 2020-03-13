@@ -10,8 +10,8 @@ function GLContextManager(id) {
 		return new GLShader(gl, vsSource, fsSource);
 	};
 
-	this.createMesh = function (shader, vertices) {
-		return new GLMesh(gl, shader, vertices);
+	this.createMesh = function (vertices, stride) {
+		return new GLMesh(gl, vertices, stride);
 	};
 
 	this.setClearColor = function (red, green, blue, alpha) {
@@ -25,18 +25,10 @@ function GLContextManager(id) {
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	};
 
-	this.setSizeView = function (width, height) {
+	this.setViewport = function (width, height) {
 		gl.canvas.width = width;
 		gl.canvas.height = height;
 		gl.viewport(0, 0, width, height);
-	}
-
-	this.useProgram = function (programId) {
-		gl.useProgram(programId);
-	}
-
-	this.setUniformMatrix4fv = function (channel, matrix) {
-		gl.uniformMatrix4fv(channel, false, matrix);
 	}
 
 }

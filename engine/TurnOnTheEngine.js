@@ -1,16 +1,13 @@
 // OpenGL Context
 const openglCtx = new GLContextManager("#window");
 
-// Logical Renderer
-const renderer = new Renderer(openglCtx);
-
 // Layer Stack
 const layerStack = new LayerStack();
 
 // Input Bindings
 function eventsCallback(e) {
 	if (e.type === "WindowResize")
-		openglCtx.setSizeView(e.width, e.height);
+		openglCtx.setViewport(e.width, e.height);
 	layerStack.event(e);
 }
 
@@ -43,7 +40,7 @@ function gameloop() {
 
 		layerStack.updateLayers(ts);
 		openglCtx.clear();
-		layerStack.drawLayers(renderer)
+		layerStack.drawLayers();
 		requestAnimationFrame(loop);
 	}
 

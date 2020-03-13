@@ -16,9 +16,9 @@ function LayerStack() {
 			layer.update(ts);
 	};
 
-	this.drawLayers = function (renderer) {
+	this.drawLayers = function () {
 		for (let layer of layers)
-			layer.draw(renderer);
+			layer.draw();
 	}
 
 	this.detachLayers = function () {
