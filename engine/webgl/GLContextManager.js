@@ -10,8 +10,8 @@ function GLContextManager(id) {
 		return new GLShader(gl, vsSource, fsSource);
 	};
 
-	this.createMesh = function (vertices, stride) {
-		return new GLMesh(gl, vertices, stride);
+	this.createMesh = function (vertices, stride, indices) {
+		return new GLMesh(gl, vertices, stride, indices);
 	};
 
 	this.setClearColor = function (red, green, blue, alpha) {

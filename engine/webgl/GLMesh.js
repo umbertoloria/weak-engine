@@ -1,10 +1,12 @@
-function GLMesh(gl, vertices, stride) {
+function GLMesh(gl, vertices, stride, indices) {
 
-	const buffer = gl.createBuffer();
-	const count = vertices.length / stride;
-	gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+	const verticesBuffer = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, verticesBuffer);
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-	gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+
+	const indicesBuffer = gl.createBuffer();
+	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicesBuffer);
+	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
 
 	this.addAttribPointer = function (attribLocation, size, offset) {
 		gl.vertexAttribPointer(attribLocation, size, gl.FLOAT, false,
@@ -13,8 +15,10 @@ function GLMesh(gl, vertices, stride) {
 	};
 
 	this.draw = function () {
-		gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-		gl.drawArrays(gl.TRIANGLE_STRIP, 0, count);
+		// gl.bindBuffer(gl.ARRAY_BUFFER, verticesBuffer);
+		// gl.drawArrays(gl.TRIANGLE_STRIP, 0, count);
+		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicesBuffer);
+		gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
 	}
 
 }
