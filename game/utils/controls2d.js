@@ -22,8 +22,10 @@ function Controls2D(up, left, down, right, speed) {
 			vec2.normalize(result, result);
 			result[0] *= speed * ts;
 			result[1] *= speed * ts;
+			return result;
+		} else {
+			return null;
 		}
-		return result;
 	};
 
 }

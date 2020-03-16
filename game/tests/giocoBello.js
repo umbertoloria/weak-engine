@@ -8,7 +8,7 @@ function clearColorDefinition() {
 
 function MyLayer() {
 
-	let projection = null;
+	let projection;
 	const camera = new Camera();
 	const ctrl2d = new Controls2D("w", "a", "s", "d", 10);
 	let entity;

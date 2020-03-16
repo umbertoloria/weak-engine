@@ -1,5 +1,6 @@
-function Player() {
+function Player(name) {
 
+	this.name = name;
 	this.color = [1, 1, 1, 1];
 	this.position = [0, 0, 0];
 	this.rotation = [Math.PI / 2, 0, 0];
