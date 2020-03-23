@@ -19,18 +19,15 @@ function PlatformLayer() {
 				return;
 			me.position[0] += move[0];
 			me.position[2] -= move[1];
-			if (this.newPlayerPositionCallback instanceof Function)
-				this.newPlayerPositionCallback(me.position)
+			this.newPlayerPositionCallback(me.position);
 		}
 	};
 
 	this.draw = function () {
 		if (me instanceof Player) {
-			for (const name in players) {
-				if (me.name !== name) {
+			for (const name in players)
+				if (me.name !== name)
 					players[name].draw(projection.getProjectionMatrix(), camera.getViewMatrix());
-				}
-			}
 			me.draw(projection.getProjectionMatrix(), camera.getViewMatrix());
 		} else {
 			for (const name in players)
@@ -52,22 +49,22 @@ function PlatformLayer() {
 
 	this.newPlayerPositionCallback = null;
 
+	this.setMainPlayer = function (name) {
+		console.log("io sono", name);
+		me = new Player(name);
+		players[me.name] = me;
+	}
+
 	this.playersUpdater = function (playersInfo) {
-
-		for (const plna in players) {
-			if (playersInfo[plna] === undefined) {
+		for (const plna in players)
+			if (playersInfo[plna] === undefined)
 				delete players[plna];
-			}
-		}
-
 		for (const playerName in playersInfo) {
 			const posx = playersInfo[playerName].x;
 			const posy = playersInfo[playerName].y;
 			const color = playersInfo[playerName].color;
-
 			if (players[playerName] === undefined)
 				players[playerName] = new Player(playerName);
-
 			const pl = players[playerName];
 			pl.position[0] = posx;
 			pl.position[2] = posy;
@@ -75,16 +72,10 @@ function PlatformLayer() {
 		}
 	}
 
-	this.playerMoved = function (name, x, y) {
+	this.positionsUpdater = function (name, x, y) {
 		const player = players[name];
 		player.position[0] = x;
 		player.position[2] = y;
-	}
-
-	this.setMainPlayer = function (name) {
-		console.log("io sono", name);
-		me = new Player(name);
-		players[me.name] = me;
 	}
 
 }
