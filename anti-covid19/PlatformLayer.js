@@ -10,30 +10,8 @@ function PlatformLayer() {
 		camera.setPosition(0, 20, 0);
 		camera.setRotation(-Math.PI * 0.5, 0, 0);
 		PLAYER_ASSETS.init(context);
+		BULLET_ASSETS.init(context);
 	};
-
-	this.update = function (ts) {
-		if (me instanceof Player) {
-			const move = ctrl2d.getMoveVector(ts);
-			if (move == null)
-				return;
-			me.position[0] += move[0];
-			me.position[2] -= move[1];
-			this.newPlayerPositionCallback(me.position);
-		}
-	};
-
-	this.draw = function () {
-		if (me instanceof Player) {
-			for (const name in players)
-				if (me.name !== name)
-					players[name].draw(projection.getProjectionMatrix(), camera.getViewMatrix());
-			me.draw(projection.getProjectionMatrix(), camera.getViewMatrix());
-		} else {
-			for (const name in players)
-				players[name].draw(projection.getProjectionMatrix(), camera.getViewMatrix());
-		}
-	}
 
 	this.event = function (e) {
 		if (e.type === "WindowResize") {
@@ -42,8 +20,56 @@ function PlatformLayer() {
 				e.width / e.height,
 				0.001, 100
 			);
+		} else if (e.type === "LeftMouseDown") {
+			lastMouseDown = {
+				x: e.x,
+				y: e.y
+			};
 		}
 	};
+
+	let lastMouseDown;
+	const proiettili = [];
+
+	this.update = function (ts) {
+		if (!(me instanceof Player))
+			return;
+		// Spostamento
+		const move = ctrl2d.getMoveVector(ts);
+		if (move !== null) {
+			me.position[0] += move[0];
+			me.position[2] -= move[1];
+			camera.setPosition(me.position[0], 20, me.position[2]);
+			this.newPlayerPositionCallback(me.position);
+		}
+		// Spari esistenti
+		for (const bullet of proiettili)
+			bullet.update(ts);
+		// Nuovo sparo
+		if (lastMouseDown !== undefined) {
+			const angle = Math.atan2(50 - lastMouseDown.y, (lastMouseDown.x - 50) * projection.getAspectRatio());
+			lastMouseDown = undefined;
+			proiettili.push(new Bullet(me.position[0], me.position[2], angle));
+		}
+	};
+
+	this.draw = function () {
+		const projectionMatrix = projection.getProjectionMatrix();
+		const viewMatrix = camera.getViewMatrix();
+		// bullets
+		for (const bullet of proiettili)
+			bullet.draw(projectionMatrix, viewMatrix);
+		// players
+		if (me instanceof Player) {
+			for (const name in players)
+				if (me.name !== name)
+					players[name].draw(projectionMatrix, viewMatrix);
+			me.draw(projectionMatrix, viewMatrix);
+		} else {
+			for (const name in players)
+				players[name].draw(projectionMatrix, viewMatrix);
+		}
+	}
 
 	// communication side
 
@@ -69,6 +95,8 @@ function PlatformLayer() {
 			pl.position[0] = posx;
 			pl.position[2] = posy;
 			pl.color = color;
+			if (playerName === me.name)
+				camera.setPosition(me.position[0], 20, me.position[2]);
 		}
 	}
 

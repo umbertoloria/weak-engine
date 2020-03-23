@@ -1,6 +1,6 @@
 function GLContextManager(id) {
 
-	const gl = document.querySelector(id).getContext('webgl');
+	const gl = document.querySelector(id).getContext('webgl2');
 	if (!gl) {
 		alert('Unable to initialize WebGL. Your browser or machine may not support it.');
 		return;

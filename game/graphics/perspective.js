@@ -17,4 +17,8 @@ function Perspective(fieldOfView, aspect, zNear, zFar) {
 		return projectionMatrix;
 	}
 
+	this.getAspectRatio = function () {
+		return aspect;
+	}
+
 }

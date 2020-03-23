@@ -12,8 +12,11 @@ function eventsCallback(e) {
 }
 
 const input = new Input(eventsCallback);
-document.addEventListener('keyup', input.keyUpHandle);
 document.addEventListener('keydown', input.keyDownHandle);
+document.addEventListener('keyup', input.keyUpHandle);
+document.addEventListener('mousemove', input.mouseMoveHandle);
+document.addEventListener('mousedown', input.mouseDownHandle);
+document.addEventListener('mouseup', input.mouseUpHandle);
 window.onresize = input.windowResizeHandle;
 
 // User definitions
